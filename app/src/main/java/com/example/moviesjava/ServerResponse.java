@@ -17,4 +17,11 @@ public class ServerResponse {
         return movies;
     }
 
+    @Override
+    public String toString() {
+        return "ServerResponse{" +
+                "movies=" + movies +
+                '}';
+    }
+
 }

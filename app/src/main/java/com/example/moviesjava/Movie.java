@@ -51,4 +51,17 @@ public class Movie {
     public int getYear() {
         return year;
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "rating=" + rating +
+                ", poster=" + poster +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", year=" + year +
+                '}';
+    }
+
 }

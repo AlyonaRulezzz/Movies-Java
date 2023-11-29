@@ -15,4 +15,11 @@ public class Poster {
         return url;
     }
 
+    @Override
+    public String toString() {
+        return "Poster{" +
+                "url='" + url + '\'' +
+                '}';
+    }
+
 }
