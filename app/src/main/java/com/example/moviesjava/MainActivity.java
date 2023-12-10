@@ -40,12 +40,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Movie> movies) {
 //                Log.d( TAG, String.valueOf(mainViewModel.getMovies().getValue().size()));
-//                Log.d(TAG, movies.get(0).getName());
+                Log.d(TAG, movies.get(0).getName());
                 moviesAdapter.setMovies(movies);
 //                Log.d( TAG, String.valueOf(mainViewModel.getMovies().getValue().size()));
             }
         });
+
         mainViewModel.loadMovies();
+
+        moviesAdapter.setOnListEnd(new MoviesAdapter.IOnListEndListener() {
+            @Override
+            public void onReachedListEnd() {
+                mainViewModel.loadMovies();
+            }
+        });
     }
 
 }

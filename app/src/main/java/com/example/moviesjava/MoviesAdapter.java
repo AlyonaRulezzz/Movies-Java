@@ -19,6 +19,12 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
     private List<Movie> movies = new ArrayList<>();
 
+    public void setOnListEnd(IOnListEndListener onListEnd) {
+        this.onListEnd = onListEnd;
+    }
+
+    private IOnListEndListener onListEnd;
+
     class MovieViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivPoster;
         private TextView tvRating;
@@ -53,6 +59,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
         Drawable background = ContextCompat.getDrawable(holder.itemView.getContext(), backgroundId);
         holder.tvRating.setBackground(background);
+
+//        if ( (position >= movies.size() - 2) && (onListEnd != null) ) {
+        if ( (onListEnd != null) ) {
+            onListEnd.onReachedListEnd();
+        }
     }
 
     @Override
@@ -64,5 +75,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         this.movies = movies;
 //        this.movies.addAll(movies);
         notifyDataSetChanged();
+    }
+
+    interface IOnListEndListener {
+        void onReachedListEnd();
     }
 }
