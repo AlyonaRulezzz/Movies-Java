@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -38,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                Log.d(TAG, movies.get(0).getName().toString());
+//                Log.d( TAG, String.valueOf(mainViewModel.getMovies().getValue().size()));
+//                Log.d(TAG, movies.get(0).getName());
                 moviesAdapter.setMovies(movies);
+//                Log.d( TAG, String.valueOf(mainViewModel.getMovies().getValue().size()));
             }
         });
         mainViewModel.loadMovies();

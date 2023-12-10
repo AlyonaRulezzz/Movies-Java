@@ -28,9 +28,8 @@
             tools:text="8.0"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:padding="8dp"
             android:layout_margin="16dp"
-            android:background="@android:color/holo_green_light"
+            tools:background="@drawable/rating_background_orange"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
