@@ -1,6 +1,7 @@
 package com.example.moviesjava;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+        Log.d("Adaper1", "position" + position);
         Movie movie = movies.get(position);
         Glide.with(holder.itemView)
                 .load(movie.getPoster().getUrl())
@@ -60,8 +62,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         Drawable background = ContextCompat.getDrawable(holder.itemView.getContext(), backgroundId);
         holder.tvRating.setBackground(background);
 
-//        if ( (position >= movies.size() - 2) && (onListEnd != null) ) {
-        if ( (onListEnd != null) ) {
+        if ( (position == movies.size() - 1) && (onListEnd != null) ) {
+//        if ( (onListEnd != null) ) {
             onListEnd.onReachedListEnd();
         }
     }

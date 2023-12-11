@@ -6,8 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiFactory {
 
-//    private static final String BASE_URL = "https://api.kinopoisk.dev/v1.4/";
-    private static final String BASE_URL = "https://kinopoiskapiunofficial.tech/api/v2.2/";
+    private static final String BASE_URL = "https://api.kinopoisk.dev/v1.4/";
 
     private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)

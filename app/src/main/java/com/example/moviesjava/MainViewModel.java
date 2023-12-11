@@ -40,12 +40,13 @@ public class MainViewModel extends AndroidViewModel {
                     @Override
                     public void accept(ServerResponse serverResponse) throws Throwable {
                         List<Movie> moviesToAdd = serverResponse.getMovies();
-                        Log.d("Adapter", movies.getValue().toString());
                         if (movies.getValue() != null) {
                             movies.getValue().addAll(moviesToAdd);
                             movies.setValue(movies.getValue());
+                            Log.d("Adapter1", String.valueOf(movies.getValue().size()));
                         } else {
-                            movies.setValue(serverResponse.getMovies());
+                            Log.d("Adapter1", "movies.getValue().size() = 0");
+                            movies.setValue(moviesToAdd);
                         }
                         page++;
                     }
