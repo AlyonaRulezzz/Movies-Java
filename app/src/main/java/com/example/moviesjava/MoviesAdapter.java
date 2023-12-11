@@ -62,7 +62,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         Drawable background = ContextCompat.getDrawable(holder.itemView.getContext(), backgroundId);
         holder.tvRating.setBackground(background);
 
-        if ( (position == movies.size() - 1) && (onListEnd != null) ) {
+        if ( (position >= movies.size() - 10) && (onListEnd != null) ) {
 //        if ( (onListEnd != null) ) {
             onListEnd.onReachedListEnd();
         }
