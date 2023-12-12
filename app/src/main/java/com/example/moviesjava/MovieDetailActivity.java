@@ -3,6 +3,8 @@ package com.example.moviesjava;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +30,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private MovieDetailViewModel movieDetailViewModel;
 
+    private RecyclerView trailersRecyclerView;
+
     private ImageView ivPoster;
     private TextView tvTitle;
     private TextView tvYear;
@@ -50,6 +54,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         tvYear.setText(String.valueOf(movie.getYear()));
         tvDescription.setText(movie.getDescription());
 
+        TrailersAdapter trailersAdapter = new TrailersAdapter();
+        trailersRecyclerView.setAdapter(trailersAdapter);
+        trailersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         movieDetailViewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
 
         movieDetailViewModel.loadTrailers(movie);
@@ -58,6 +66,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Trailer> trailerList) {
                 Log.d(TAG, trailerList.toString());
+                trailersAdapter.setTrailers(trailerList);
             }
         });
     }
@@ -67,6 +76,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tvTitle);
         tvYear = findViewById(R.id.tvYear);
         tvDescription = findViewById(R.id.tvDescription);
+        trailersRecyclerView = findViewById(R.id.trailersRecyclerView);
     }
 
     public static Intent newIntent(Context context, Movie movie) {
