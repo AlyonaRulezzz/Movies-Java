@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Movies Java</string>
     <string name="content_description_poster_of_cinema">poster of cinema</string>
+    <string name="content_description_film_poster">film poster</string>
 </resources>
