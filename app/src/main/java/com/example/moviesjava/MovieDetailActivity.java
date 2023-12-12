@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -67,6 +68,14 @@ public class MovieDetailActivity extends AppCompatActivity {
             public void onChanged(List<Trailer> trailerList) {
                 Log.d(TAG, trailerList.toString());
                 trailersAdapter.setTrailers(trailerList);
+            }
+        });
+
+        trailersAdapter.setOnTrailerClickListener(new TrailersAdapter.IOnTrailerClickListener() {
+            @Override
+            public void onTrailerClick(Trailer trailer) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(trailer.getUrl()));
+                startActivity(intent);
             }
         });
     }
