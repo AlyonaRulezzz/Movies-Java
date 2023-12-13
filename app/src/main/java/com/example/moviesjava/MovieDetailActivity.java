@@ -32,6 +32,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private MovieDetailViewModel movieDetailViewModel;
 
     private RecyclerView trailersRecyclerView;
+    private RecyclerView reviewsRecyclerView;
 
     private ImageView ivPoster;
     private TextView tvTitle;
@@ -78,6 +79,19 @@ public class MovieDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ReviewsAdapter reviewsAdapter = new ReviewsAdapter();
+        reviewsRecyclerView.setAdapter(reviewsAdapter);
+        reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        movieDetailViewModel.loadReviews(movie);
+
+        movieDetailViewModel.getReviews().observe(this, new Observer<List<Review>>() {
+            @Override
+            public void onChanged(List<Review> reviews) {
+                reviewsAdapter.setReviews(reviews);
+            }
+        });
     }
 
     private void initViews() {
@@ -86,6 +100,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         tvYear = findViewById(R.id.tvYear);
         tvDescription = findViewById(R.id.tvDescription);
         trailersRecyclerView = findViewById(R.id.trailersRecyclerView);
+        reviewsRecyclerView = findViewById(R.id.reviewsRecyclerView);
     }
 
     public static Intent newIntent(Context context, Movie movie) {

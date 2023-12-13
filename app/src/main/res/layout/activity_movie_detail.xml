@@ -64,6 +64,15 @@
             android:nestedScrollingEnabled="false"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            tools:listitem="@layout/rv_review_item_layout"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintTop_toBottomOf="@id/trailersRecyclerView"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

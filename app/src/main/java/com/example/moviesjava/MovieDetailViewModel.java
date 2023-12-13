@@ -18,14 +18,23 @@ import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MovieDetailViewModel extends AndroidViewModel {
+    public static final String TAG = "MovieDetailViewModel1";
+
     public MovieDetailViewModel(@NonNull Application application) {
         super(application);
     }
+
     private MutableLiveData<List<Trailer>> trailers = new MutableLiveData<>();
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
     public LiveData<List<Trailer>> getTrailers() {
         return trailers;
     }
+
+    private MutableLiveData<List<Review>> reviews = new MutableLiveData<>();
+    public LiveData<List<Review>> getReviews() {
+        return reviews;
+    }
+
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public void loadTrailers(Movie movie) {
         Disposable disposable = ApiFactory.apiService.loadTrailers(movie.getId())
@@ -41,12 +50,36 @@ public class MovieDetailViewModel extends AndroidViewModel {
                     @Override
                     public void accept(List<Trailer> trailerList) throws Throwable {
                         trailers.setValue(trailerList);
-                        Log.d("MovieDetailActivity1", trailerList.toString());
+                        Log.d(TAG, trailerList.toString());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Throwable {
-                        Log.d("MovieDetailActivity1", throwable.toString());
+                        Log.d(TAG, throwable.toString());
+                    }
+                });
+        compositeDisposable.add(disposable);
+    }
+
+    public  void loadReviews(Movie movie) {
+        Disposable disposable = ApiFactory.apiService.loadReviews(movie.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Function<ReviewsServerResponse, List<Review>>() {
+                    @Override
+                    public List<Review> apply(ReviewsServerResponse reviewsServerResponse) throws Throwable {
+                        return reviewsServerResponse.getReviews();
+                    }
+                })
+                .subscribe(new Consumer<List<Review>>() {
+                    @Override
+                    public void accept(List<Review> reviewsListResponse) throws Throwable {
+                        reviews.setValue(reviewsListResponse);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Throwable {
+                        Log.d(TAG, throwable.toString());
                     }
                 });
         compositeDisposable.add(disposable);
