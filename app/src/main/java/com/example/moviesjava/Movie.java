@@ -1,18 +1,26 @@
 package com.example.moviesjava;
 
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+@Entity(tableName = "favourite_movies")
 public class Movie implements Serializable {
 
     @SerializedName("rating")
+    @Embedded
     private Rating rating;
 
     @SerializedName("poster")
+    @Embedded
     private Poster poster;
 
     @SerializedName("id")
+    @PrimaryKey
     private int id;
     @SerializedName("name")
     private String name;

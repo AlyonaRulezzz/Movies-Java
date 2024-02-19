@@ -16,13 +16,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.security.Provider;
 import java.util.List;
-import java.util.Objects;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -85,6 +80,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         movieDetailViewModel.loadReviews(movie);
+
+        MovieDao movieDao = MovieDatabase.getInstance(getApplication())
+                        .movieDao();
+        movieDao.insertMovie(movie)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
 
         movieDetailViewModel.getReviews().observe(this, new Observer<List<Review>>() {
             @Override
