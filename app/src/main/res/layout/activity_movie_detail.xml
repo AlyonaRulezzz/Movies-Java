@@ -20,6 +20,17 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/content_description_film_poster" />
 
+        <ImageView
+            android:id="@+id/ivStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            tools:src="@android:drawable/star_big_on"
+            app:layout_constraintTop_toBottomOf="@+id/ivPoster"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPoster"
+            app:layout_constraintEnd_toEndOf="@+id/ivPoster"
+            android:contentDescription="@string/favourite_film_s_star"/>
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
@@ -69,8 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            tools:listitem="@layout/rv_review_item_layout"
             android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/rv_review_item_layout"
             app:layout_constraintTop_toBottomOf="@id/trailersRecyclerView"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

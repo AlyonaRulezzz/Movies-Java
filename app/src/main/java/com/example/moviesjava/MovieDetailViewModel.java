@@ -20,8 +20,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MovieDetailViewModel extends AndroidViewModel {
     public static final String TAG = "MovieDetailViewModel1";
 
+    public final MovieDao movieDao;
+
     public MovieDetailViewModel(@NonNull Application application) {
         super(application);
+
+        movieDao = MovieDatabase.getInstance(application).movieDao();
     }
 
     private MutableLiveData<List<Trailer>> trailers = new MutableLiveData<>();
@@ -35,6 +39,23 @@ public class MovieDetailViewModel extends AndroidViewModel {
     }
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    public LiveData<Movie> getFavouriteMovie(int movieId) {
+        return movieDao.getFavouriteMovie(movieId);
+    }
+
+    public void insertMovie(Movie movie) {
+        Disposable disposable = movieDao.insertMovie(movie)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
+        compositeDisposable.add(disposable);
+    }
+
+    public void deleteMovie(int movieId) {
+        Disposable disposable = movieDao.deleteMovie(movieId)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
+    }
 
     public void loadTrailers(Movie movie) {
         Disposable disposable = ApiFactory.apiService.loadTrailers(movie.getId())

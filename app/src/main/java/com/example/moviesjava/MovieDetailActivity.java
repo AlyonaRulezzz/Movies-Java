@@ -1,6 +1,7 @@
 package com.example.moviesjava;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +33,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private RecyclerView reviewsRecyclerView;
 
     private ImageView ivPoster;
+    private ImageView ivStar;
     private TextView tvTitle;
     private TextView tvYear;
     private TextView tvDescription;
@@ -81,22 +85,45 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         movieDetailViewModel.loadReviews(movie);
 
-        MovieDao movieDao = MovieDatabase.getInstance(getApplication())
-                        .movieDao();
-        movieDao.insertMovie(movie)
-                .subscribeOn(Schedulers.io())
-                .subscribe();
-
         movieDetailViewModel.getReviews().observe(this, new Observer<List<Review>>() {
             @Override
             public void onChanged(List<Review> reviews) {
                 reviewsAdapter.setReviews(reviews);
             }
         });
+
+        Drawable starOff = ContextCompat.getDrawable(MovieDetailActivity.this, android.R.drawable.star_big_off);
+        Drawable starOn = ContextCompat.getDrawable(MovieDetailActivity.this, android.R.drawable.star_big_on);
+
+        movieDetailViewModel.getFavouriteMovie(movie.getId()).observe(this, new Observer<Movie>() {
+            @Override
+            public void onChanged(Movie movieFromDb) {
+                if (movieFromDb == null) {
+                    ivStar.setImageDrawable(starOff);
+                    ivStar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            movieDetailViewModel.insertMovie(movie);
+                        }
+                    });
+
+                } else {
+                    ivStar.setImageDrawable(starOn);
+                    ivStar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            movieDetailViewModel.deleteMovie(movie.getId());
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
     private void initViews() {
         ivPoster = findViewById(R.id.ivPoster);
+        ivStar = findViewById(R.id.ivStar);
         tvTitle = findViewById(R.id.tvTitle);
         tvYear = findViewById(R.id.tvYear);
         tvDescription = findViewById(R.id.tvDescription);
